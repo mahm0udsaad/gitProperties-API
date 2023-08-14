@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const PORT = 9000 ;
+const PORT = process.env.PORT || 4000;
 const app = express()
 const client = require('./db')
 const getProperties= require('./data')
