@@ -1,12 +1,12 @@
+
 const client = require('./db')
 
-async function getProperties(){
+async function getProperties(coll , DB){
     try{
         await client.connect();
-        const dataBase = client.db('properties');
-        const db = dataBase.collection('first')
+        const dataBase = client.db(DB);
+        const db = dataBase.collection(coll)
         const Properties = await db.find({}).toArray();
-
         return Properties ;
         
     }finally{
