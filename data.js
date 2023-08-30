@@ -8,7 +8,7 @@ async function getProperties(coll , DB){
         const db = dataBase.collection(coll)
         const Properties = await db.find({}).toArray();
         return Properties ;
-        
+        console.log(Properties);
     }finally{
         await client.close();
     }

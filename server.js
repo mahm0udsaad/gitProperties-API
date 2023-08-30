@@ -1,30 +1,35 @@
 const express = require('express')
 const cors = require('cors')
+const dotenv = require("dotenv");
 const PORT = process.env.PORT || 4000;
 const app = express()
 const client = require('./db')
 const getProperties= require('./data')
-import dotenv from "dotenv";
 
 dotenv.config();
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
+app.get('/',(req,res)=>{
+  res.send('Hello World')
+})
 app.get('/for-buy-properties/:propertiesType', async (req, res) => {
   const propertiesType = req.params.propertiesType
   try {
-    const properties = await getProperties(`${propertiesType}`,'properties');
+    const properties = await getProperties(`${propertiesType}s`,'properties');
     res.json(properties);
+  console.log(properties);
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'An error occurred' });
   }
+
 });
 
 app.get('/for-rent-properties/:propertiesType', async (req, res) => {
   const propertiesType = req.params.propertiesType
   try {
-    const properties = await getProperties(`${propertiesType}`,'RentProperties');
+    const properties = await getProperties(`${propertiesType}s`,'RentProperties');
     res.json(properties);
   } catch (error) {
     console.error('Error:', error);
@@ -36,7 +41,7 @@ app.get('/for-rent-properties/:propertiesType/:id', async (req, res) => {
   const propertyId = req.params.id;
   const propertiesType = req.params.propertiesType
   try {
-    const properties = await getProperties(`${propertiesType}`,'RentProperties');
+    const properties = await getProperties(`${propertiesType}s`,'RentProperties');
     const property = properties.find(prop => prop.id == propertyId);
     console.log(property);
     if (property) {
@@ -55,7 +60,7 @@ app.get('/for-buy-properties/:propertiesType/:id', async (req, res) => {
   const propertiesType = req.params.propertiesType
 
   try {
-    const properties = await getProperties(`${propertiesType}`,'properties');
+    const properties = await getProperties(`${propertiesType}s`,'properties');
     const property = properties.find(prop => prop.id == propertyId);
 
     if (property) {
@@ -76,7 +81,7 @@ app.post('/List-new', async (req, res) => {
   try {
     await client.connect();
     const myDatabase = client.db(`${DB}`);
-    const collection = myDatabase.collection(`${property.type}`);
+    const collection = myDatabase.collection(`${property.type}s`);
 
     const result = await collection.insertOne(property);
 
