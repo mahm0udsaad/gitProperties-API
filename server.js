@@ -4,7 +4,9 @@ const PORT = process.env.PORT || 4000;
 const app = express()
 const client = require('./db')
 const getProperties= require('./data')
+import dotenv from "dotenv";
 
+dotenv.config();
 app.use(cors())
 app.use(express.json())
 
